@@ -1,4 +1,4 @@
-###Program
+### Program
 
 1. Download NRF52 SDK 15.2 [link](https://www.nordicsemi.com/Software-and-Tools/Software/nRF5-SDK/Download#infotabs)
 2. Clone repo
