@@ -1,0 +1,84 @@
+--------------------------------------------------------------------------------
+nrfjprog -f nrf52 --program _build/nrf52832_xxaa.hex --sectorerase --log
+nrfjprog version 9.7.3
+--------------------------------------------------------------------------------
+nRF_open_dll
+. nRF52_open_dll
+. . nRF52_dll_version
+nRF_enum_emu_snr
+. nRF52_enum_emu_snr
+. . nRF52_enum_emu_snr
+nRF_enum_emu_snr
+. nRF52_enum_emu_snr
+. . nRF52_enum_emu_snr
+nRF_connect_to_emu_with_snr
+. nRF52_connect_to_emu_with_snr
+. . nRF52_is_connected_to_emu
+. . nRF52_enum_emu_snr
+. . nRF52_connect_to_emu_with_snr
+. . . nRF52_connect_to_emu_without_snr
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	   ***** Error: 
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Cannot connect to J-Link via USB.
+. . . nRF52_connect_to_emu_without_snr:	JLink:	  returns "Cannot connect to J-Link via USB."
+. . . nRF52_connect_to_emu_without_snr:	JLink:	 (0006ms, 0009ms total)  
+. . . nRF52_connect_to_emu_without_snr:	JLinkARM.dll OpenEx returned error 'Cannot connect to J-Link via USB.'.
+
+nRF_close_dll
+. nRF52_close_dll
+. . nRF52_is_connected_to_emu
+. . nRF52_is_connected_to_emu:	JLink:	TC1EE5C0 000:011 
+. . nRF52_is_connected_to_emu:	JLink:	JLINK_IsOpen()
+. . nRF52_is_connected_to_emu:	JLink:	  returns 0x00
+. . nRF52_is_connected_to_emu:	JLink:	 (0001ms, 0011ms total)  
+. nRF52_close_dll:	JLink:	TC1EE5C0 000:012 
+. nRF52_close_dll:	JLink:	JLINK_Close()
+--------------------------------------------------------------------------------
+nrfjprog -f --log nrf52 --program _build/nrf52832_xxaa.hex --sectorerase
+nrfjprog version 9.7.3
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+nrfjprog -f nrf52 --log --program _build/nrf52832_xxaa.hex --sectorerase
+nrfjprog version 9.7.3
+--------------------------------------------------------------------------------
+nRF_open_dll
+. nRF52_open_dll
+. . nRF52_dll_version
+nRF_enum_emu_snr
+. nRF52_enum_emu_snr
+. . nRF52_enum_emu_snr
+nRF_enum_emu_snr
+. nRF52_enum_emu_snr
+. . nRF52_enum_emu_snr
+nRF_connect_to_emu_with_snr
+. nRF52_connect_to_emu_with_snr
+. . nRF52_is_connected_to_emu
+. . nRF52_enum_emu_snr
+. . nRF52_connect_to_emu_with_snr
+. . . nRF52_connect_to_emu_without_snr
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Out of sync , resynchronizing...
+. . . nRF52_connect_to_emu_without_snr:	JLink:	   ***** Error: 
+. . . nRF52_connect_to_emu_without_snr:	JLink:	Cannot connect to J-Link via USB.
+. . . nRF52_connect_to_emu_without_snr:	JLink:	  returns "Cannot connect to J-Link via USB."
+. . . nRF52_connect_to_emu_without_snr:	JLink:	 (0007ms, 0010ms total)  
+. . . nRF52_connect_to_emu_without_snr:	JLinkARM.dll OpenEx returned error 'Cannot connect to J-Link via USB.'.
+
+nRF_close_dll
+. nRF52_close_dll
+. . nRF52_is_connected_to_emu
+. . nRF52_is_connected_to_emu:	JLink:	T118175C0 000:012 
+. . nRF52_is_connected_to_emu:	JLink:	JLINK_IsOpen()
+. . nRF52_is_connected_to_emu:	JLink:	  returns 0x00
+. . nRF52_is_connected_to_emu:	JLink:	 (0000ms, 0010ms total)  
+. nRF52_close_dll:	JLink:	T118175C0 000:013 
+. nRF52_close_dll:	JLink:	JLINK_Close()
