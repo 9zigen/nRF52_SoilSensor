@@ -10,3 +10,5 @@ compile_commands.json
 CTestTestfile.cmake
 _*.*
 _*/
+.idea/*.*
+log.log
