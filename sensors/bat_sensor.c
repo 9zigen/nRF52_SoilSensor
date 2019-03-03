@@ -265,7 +265,7 @@ void bat_sensor_deinit(void)
   NVIC_ClearPendingIRQ(SAADC_IRQn);
   nrfx_saadc_uninit();
 
-  nrf_gpio_cfg_input(BAT_ON, NRF_GPIO_PIN_NOPULL);
+//  nrf_gpio_cfg_input(BAT_ON, NRF_GPIO_PIN_NOPULL);
   nrf_gpio_pin_clear(BAT_ON);
 
 }

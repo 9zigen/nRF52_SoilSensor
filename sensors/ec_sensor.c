@@ -153,6 +153,9 @@ static void saadc_sampling_event_deinit(void)
   err_code = nrfx_ppi_channel_free(m_ppi_channel_ec2);
   APP_ERROR_CHECK(err_code);
 
+  nrfx_gpiote_out_task_disable(EC_1);
+  nrfx_gpiote_out_task_disable(EC_2);
+
   nrfx_gpiote_out_uninit(EC_1);
   nrfx_gpiote_out_uninit(EC_2);
 
@@ -264,6 +267,9 @@ void ec_sensor_deinit(void)
 
   nrf_gpio_cfg_input(EC_1, NRF_GPIO_PIN_NOPULL);
   nrf_gpio_cfg_input(EC_2, NRF_GPIO_PIN_NOPULL);
+
+  nrf_gpio_input_disconnect(EC_1);
+  nrf_gpio_input_disconnect(EC_2);
 
   nrfx_saadc_uninit();
   NVIC_ClearPendingIRQ(SAADC_IRQn);

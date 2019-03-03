@@ -17,7 +17,7 @@
 #define INT_LT_H                0x05
 #define INT_HT_L                0x06
 #define INT_HT_H                0x07
-#define CHIP_ID                 0x0f
+#define CHIP_ID_REG             0x0f
 
 #define OPMODE_POWER_DOWN       0x00
 #define OPMODE_ALS_ONCE         0x20

@@ -76,21 +76,29 @@ void read_sensors_timer_handler(void *p_context)
 {
   if(p_context)
   {
-    /* first run */
+    /* fast run */
     if (all_sensors_ready())
     {
-      /* restart read */
+      /* restart read after delay 30 min */
       read_sensor_timer_stop();
       read_sensor_timer_start(false);
 
+      NRF_LOG_INFO("update advertising data");
       /* update advertising data */
       advertising_update();
+      reset_all_sensors();
       return;
     }
+
+    NRF_LOG_INFO("-------------- READ SENSOR --------------");
+    read_sensors();
+  } else {
+    NRF_LOG_INFO("-------------- DELAY ELAPSED ------------");
+    /* delay elapsed, setup timer to fast read sensors */
+    read_sensor_timer_stop();
+    read_sensor_timer_start(true);
   }
 
-  NRF_LOG_INFO("-------------- READ SENSOR --------------");
-  read_sensors();
 }
 
 void update_advertising_timer_handler(void *p_context)
@@ -161,11 +169,6 @@ void read_sensors() {
   if (sensor_index == 0) {
     read_battery_voltage();
     sensor_index++;
-
-    /* setup timer to fast read sensot */
-    read_sensor_timer_stop();
-    read_sensor_timer_start(true);
-
   } else if (sensor_index == 1) {
     read_soil();
     sensor_index++;
@@ -261,7 +264,7 @@ void reset_sensor(sensor_t sensor_id)
   }
 }
 
-void reset_sensors()
+void reset_all_sensors()
 {
   soil_sensor_ready = false;
   ec_sensor_ready = false;

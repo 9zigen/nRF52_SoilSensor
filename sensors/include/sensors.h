@@ -51,7 +51,7 @@ void reset_sensor(sensor_t sensor_id);
 bool all_sensors_ready();
 
 /* Reset ALL sensors status */
-void reset_sensors();
+void reset_all_sensors();
 
 /* timer handlers */
 void update_advertising_timer_handler(void *p_context);

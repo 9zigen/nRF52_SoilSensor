@@ -107,19 +107,19 @@ uint16_t read_data()
 
 void isl29035_init()
 {
-  uint8_t reg = read_register(ISL29035_I2C_ADDRESS, CHIP_ID);
-  NRF_LOG_INFO("ISL29035 CHIP_ID: 0x%x", reg);
+  uint8_t reg = read_register(ISL29035_I2C_ADDRESS, CHIP_ID_REG);
+  NRF_LOG_INFO("ISL29035 CHIP_ID_REG: 0x%x", reg);
   NRF_LOG_FLUSH();
   uint8_t chip_id = (reg >> 3) & 0x7;
   if (chip_id != 0x5)
   {
-    NRF_LOG_INFO("ISL29035 CHIP_ID: FAIL");
+    NRF_LOG_INFO("ISL29035 CHIP_ID_REG: FAIL");
     NRF_LOG_FLUSH();
     return;
   }
 
   //clear the BOUT bit
-  write_register(ISL29035_I2C_ADDRESS, CHIP_ID, reg & 0x7f);
+  write_register(ISL29035_I2C_ADDRESS, CHIP_ID_REG, reg & 0x7f);
 
   //ensure the chip is under stop mode
   write_register(ISL29035_I2C_ADDRESS, COMMAND_I, 0);

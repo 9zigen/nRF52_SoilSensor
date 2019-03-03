@@ -131,6 +131,8 @@ void shtc3_init()
   uint16_t chip_id = (data[0] << 8) | data[1];
   NRF_LOG_INFO("SHTC3 CHIP ID %d", chip_id);
 
+  shtc3_sleep();
+
 }
 
 void shtc3_deinit()

@@ -8,7 +8,7 @@
 
 #include "sensors.h"
 
-#define SENSOR_READ_INTERVAL_FIRST_RUN      APP_TIMER_TICKS(2000)             /* 1 sec */
+#define SENSOR_READ_INTERVAL_FAST_RUN      APP_TIMER_TICKS(2000)             /* 1 sec */
 #define SENSOR_READ_INTERVAL                APP_TIMER_TICKS(30*60*1000)       /* 30 min */
 #define CH_UPDATE_INTERVAL                  APP_TIMER_TICKS(10*1000)          /* 10 sec */
 #define ADV_UPDATE_INTERVAL                 APP_TIMER_TICKS(60*1000)          /* 1 min */
@@ -51,7 +51,7 @@ void read_sensor_timer_start(bool fast) {
   ret_code_t err_code;
   if (fast)
   {
-    err_code = app_timer_start(m_read_sensors_timer_id, SENSOR_READ_INTERVAL_FIRST_RUN, &fast);
+    err_code = app_timer_start(m_read_sensors_timer_id, SENSOR_READ_INTERVAL_FAST_RUN, &fast);
   } else {
     err_code = app_timer_start(m_read_sensors_timer_id, SENSOR_READ_INTERVAL, NULL);
   }
