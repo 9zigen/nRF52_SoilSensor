@@ -39,7 +39,7 @@ typedef struct {
 
 } shtc3_instance_t;
 
-void shtc3_init();
+void init_shtc3();
 void shtc3_write_command(uint16_t command);
 void shtc3_measure();
 void shtc3_read();

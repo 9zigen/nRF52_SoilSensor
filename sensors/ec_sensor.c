@@ -290,6 +290,8 @@ void process_conductivity()
 /*
  * https://en.wikipedia.org/wiki/Conductivity_%28electrolytic%29
  * https://www.omega.co.uk/techref/ph-2.html
+ *
+ * Return temperature compensated value in uS, micro siemens
  * */
 uint16_t get_raw_salinity() {
   static int32_t temperature;
@@ -306,16 +308,12 @@ uint16_t get_raw_salinity() {
     uS = (float)(1000000 * PROBE_K) / resistance; /* 1 μS/cm = 100 μS/m;  10^6 μS/cm = 10^3 mS/cm = 1 S/cm */
   }
   uint16_t uS_compensated = uS + (uS * ((25 - temperature) * TEMPERATURE_COMP));
-//
-  NRF_LOG_INFO("Salinity   (uS) %d", uS);
-  NRF_LOG_INFO("Salinity c (uS) %d", uS_compensated);
-  NRF_LOG_INFO("Temperature (C) %d", temperature);
 
   return uS_compensated;
 }
 
 /* Return salinity in uS compensated by temp and corrected by one or two point calibration */
-uint16_t get_conductivity()
+uint16_t get_salinity()
 {
   uint16_t raw_salinity = get_raw_salinity();
   uint16_t true_salinity = 0;

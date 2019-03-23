@@ -8,7 +8,12 @@
 
 ``PROJ_DIR := .``
 
-4. Flash Softdevice
+4. Configure Device:
+`` make sdk_config ``
+- Select Light sensor, ISL29035 (hardware v3 or 3.1) or OPT3001 (hardware v3.2)
+- Enable/Disable "Low Bat sleep", relevant when powering the board from SWD
+
+5. Flash Softdevice
 `` make flash_softdevice ``
-5. Flash App
+6. Flash App
 `` make flash ``

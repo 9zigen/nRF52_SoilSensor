@@ -9,6 +9,7 @@
 
 void timers_init(void);
 void advertising_update_timer_start(void);
+void advertising_update_timer_stop();
 
 /* Always running slow periodical sensor reading */
 void read_sensor_timer_start(bool fast);

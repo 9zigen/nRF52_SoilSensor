@@ -622,9 +622,9 @@ static uint32_t light_char_add(ble_cus_t * p_cus, const ble_cus_init_t * p_cus_i
 
   attr_char_value.p_uuid    = &ble_uuid;
   attr_char_value.p_attr_md = &attr_md;
-  attr_char_value.init_len  = 2;
+  attr_char_value.init_len  = 4;
   attr_char_value.init_offs = 0;
-  attr_char_value.max_len   = 2;
+  attr_char_value.max_len   = 4;
 
   err_code = sd_ble_gatts_characteristic_add(p_cus->service_handle, &char_md,
                                              &attr_char_value,
@@ -918,7 +918,7 @@ uint32_t ble_cus_soil_update(ble_cus_t *p_cus, uint16_t new_value)
 }
 
 /* Light Value Update */
-uint32_t ble_cus_light_update(ble_cus_t *p_cus, uint16_t new_value)
+uint32_t ble_cus_light_update(ble_cus_t *p_cus, uint32_t new_value)
 {
   NRF_LOG_INFO("In ble_cus_light_update. \r\n");
   if (p_cus == NULL)
@@ -932,7 +932,7 @@ uint32_t ble_cus_light_update(ble_cus_t *p_cus, uint16_t new_value)
   // Initialize value struct.
   memset(&gatts_value, 0, sizeof(gatts_value));
 
-  gatts_value.len     = sizeof(uint16_t);
+  gatts_value.len     = sizeof(uint32_t);
   gatts_value.offset  = 0;
   gatts_value.p_value = (uint8_t*)&new_value;
 

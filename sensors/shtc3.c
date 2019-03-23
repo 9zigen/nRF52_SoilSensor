@@ -111,7 +111,7 @@ void shtc_set_mode(shtc3_mode_t mode)
   shtc3.mode = mode;
 }
 
-void shtc3_init()
+void init_shtc3()
 {
   /* wake up sensor */
   shtc3_wakeup();

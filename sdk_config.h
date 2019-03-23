@@ -42,10 +42,34 @@
 
 #ifndef SDK_CONFIG_H
 #define SDK_CONFIG_H
+
 // <<< Use Configuration Wizard in Context Menu >>>\n
 #ifdef USE_APP_CONFIG
 #include "app_config.h"
 #endif
+
+// <h> Sensors confog
+
+//==========================================================
+// <q> LOW_BAT_SLEEP_ENABLED  - put the MCU to sleep if VBAT falls below 3.3 V
+
+#ifndef LOW_BAT_SLEEP_ENABLED
+#define LOW_BAT_SLEEP_ENABLED 0
+#endif
+
+// <o> LIGHT_SENSOR_CHIP  - Select One isl29035 of OPT3001 as Light Sensor
+
+// <0=> ISL29035
+// <1=> OPT3001
+
+
+#ifndef LIGHT_SENSOR_CHIP
+#define LIGHT_SENSOR_CHIP 1
+#endif
+
+// </h>
+//==========================================================
+
 // <h> Board Support 
 
 //==========================================================
@@ -7350,7 +7374,7 @@
 // <e> NRF_LOG_BACKEND_RTT_ENABLED - nrf_log_backend_rtt - Log RTT backend
 //==========================================================
 #ifndef NRF_LOG_BACKEND_RTT_ENABLED
-#define NRF_LOG_BACKEND_RTT_ENABLED 0
+#define NRF_LOG_BACKEND_RTT_ENABLED 1
 #endif
 // <o> NRF_LOG_BACKEND_RTT_TEMP_BUFFER_SIZE - Size of buffer for partially processed strings. 
 // <i> Size of the buffer is a trade-off between RAM usage and processing.
@@ -7428,7 +7452,7 @@
 // <e> NRF_LOG_ENABLED - nrf_log - Logger
 //==========================================================
 #ifndef NRF_LOG_ENABLED
-#define NRF_LOG_ENABLED 0
+#define NRF_LOG_ENABLED 1
 #endif
 // <h> Log message pool - Configuration of log message pool
 

@@ -229,6 +229,5 @@ void read_soil()
 
 uint16_t get_soil_level(void)
 {
-  NRF_LOG_INFO("Soil MV %d", soil_milli_volts);
   return soil_milli_volts;
 }

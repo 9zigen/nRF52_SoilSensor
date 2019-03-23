@@ -49,6 +49,7 @@ static const nrfx_timer_t     m_timer = NRFX_TIMER_INSTANCE(1);
 
 static void timer_handler(nrf_timer_event_t event_type, void * p_context) {}
 
+#if LOW_BAT_SLEEP_ENABLED == 1
 static void go_to_sleep()
 {
 
@@ -60,6 +61,7 @@ static void go_to_sleep()
   err_code = sd_power_system_off();
   APP_ERROR_CHECK(err_code);
 }
+#endif
 
 void in_pin_handler(nrfx_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
@@ -148,7 +150,7 @@ static void saadc_sampling_event_init(void)
   APP_ERROR_CHECK(err_code);
 
   /* setup m_timer for compare event every 1000us - 1 khz */
-  uint32_t ticks = nrfx_timer_ms_to_ticks(&m_timer, 1000);
+  uint32_t ticks = nrfx_timer_ms_to_ticks(&m_timer, 500);
   nrfx_timer_extended_compare(&m_timer,
                               NRF_TIMER_CC_CHANNEL0,
                               ticks,
@@ -212,7 +214,9 @@ static void saadc_callback(nrf_drv_saadc_evt_t const * p_event)
     if (bat_capacity == 0)
     {
       NRF_LOG_INFO("---> BAT LOW! ---> POWER DOWN!");
+#if LOW_BAT_SLEEP_ENABLED == 1
       go_to_sleep();
+#endif
     }
   }
 }

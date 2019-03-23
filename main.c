@@ -71,7 +71,8 @@
 #include "pwm.h"
 #include "storage.h"
 #include <boards.h>
-#include <sensors/include/bat_sensor.h>
+#include "bat_sensor.h"
+#include "light_sensor.h"
 #include "shtc3.h"
 #include "isl29035.h"
 
@@ -166,19 +167,16 @@ int main(void)
   scan_i2c();
 
   /* Init SHTC3 Temperature and Humidity Sensor */
-  shtc3_init();
+  init_shtc3();
 
-  /* Init ISL29035 Ambient Light Sensor */
-  isl29035_init();
+  /* Init Ambient Light Sensor */
+  init_light_sensor();
 
   /* Power OFF TWI */
   twi_disable();
 
   /* Init BLE services */
   init_ble();
-
-  /* Start Advertising update timer */
-  advertising_update_timer_start();
 
   /* Start read sensor timer */
   read_sensor_timer_start(true);

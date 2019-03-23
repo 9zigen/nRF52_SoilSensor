@@ -238,8 +238,10 @@ list(APPEND USER_SOURCES
     "sensors/ec_sensor.c"
     "sensors/soil_sensor.c"
     "sensors/bat_sensor.c"
+    "sensors/light_sensor.c"
     "sensors/isl29035.c"
     "sensors/shtc3.c"
+    "sensors/opt3001.c"
     "i2c.c")
 
 # SoftDevice

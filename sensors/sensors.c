@@ -17,11 +17,12 @@
 
 #include "bat_sensor.h"
 #include "soil_sensor.h"
+#
 #include "sensors.h"
+#include "light_sensor.h"
 #include "ec_sensor.h"
 #include "timers.h"
 #include "shtc3.h"
-#include "isl29035.h"
 
 uint8_t sensor_index      = 0;
 bool bat_sensor_ready     = false;
@@ -40,7 +41,7 @@ bool light_sensor_notify       = false;
 
 sensors_db_t sensors_db = {0, 0, 0, 0, false};
 
-/* save sensor values */
+/* ToDo: save sensor values */
 void store_sensor_to_db(int16_t temp, uint16_t hum, uint16_t soil, uint16_t conductivity)
 {
   sensors_db.sensor_values_changed = false;
@@ -76,7 +77,7 @@ void read_sensors_timer_handler(void *p_context)
 {
   if(p_context)
   {
-    /* fast run */
+    /* ALL sensors was asked and ready, update advertising data and setup timer to delay */
     if (all_sensors_ready())
     {
       /* restart read after delay 30 min */
@@ -84,14 +85,18 @@ void read_sensors_timer_handler(void *p_context)
       read_sensor_timer_start(false);
 
       NRF_LOG_INFO("update advertising data");
+
       /* update advertising data */
       advertising_update();
+
+      /* reset sensors state */
       reset_all_sensors();
       return;
+    } else {
+      /* NOT all sensors ready, continue ask sensors */
+      NRF_LOG_INFO("-------------- READ SENSOR --------------");
+      read_sensors();
     }
-
-    NRF_LOG_INFO("-------------- READ SENSOR --------------");
-    read_sensors();
   } else {
     NRF_LOG_INFO("-------------- DELAY ELAPSED ------------");
     /* delay elapsed, setup timer to fast read sensors */
@@ -159,7 +164,7 @@ void update_characteristics_timer_handler(void *p_context) {
  * 4 - temp + hum i2c
  * */
 void read_sensors() {
-  NRF_LOG_INFO("---Sensor INDEX %d", sensor_index);
+  NRF_LOG_INFO("#Sensor %d", sensor_index);
 
   if (nrfx_saadc_is_busy()) {
     NRF_LOG_INFO("SAADC is Busy");
@@ -176,15 +181,11 @@ void read_sensors() {
     process_conductivity();
     sensor_index++;
   } else if (sensor_index == 3) {
-    isl29035_read_sensor();
+    read_light_sensor();
     sensor_index++;
   } else if (sensor_index == 4) {
     shtc3_process();
     sensor_index = 0;
-
-    /* all sensors was asked, setup timer to delay */
-    read_sensor_timer_stop();
-    read_sensor_timer_start(false);
   }
 }
 
@@ -266,6 +267,7 @@ void reset_sensor(sensor_t sensor_id)
 
 void reset_all_sensors()
 {
+  bat_sensor_ready = false;
   soil_sensor_ready = false;
   ec_sensor_ready = false;
   light_sensor_ready = false;

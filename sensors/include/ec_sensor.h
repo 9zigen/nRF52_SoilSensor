@@ -12,7 +12,7 @@ void ec_sensor_deinit(void);
 void process_conductivity();
 
 uint16_t get_raw_salinity();
-uint16_t get_conductivity();
+uint16_t get_salinity();
 void do_one_point_calibration();
 
 #endif //SOILSENSOR_EC_SENSOR_H

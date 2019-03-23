@@ -141,5 +141,5 @@ uint32_t ble_cus_temperature_update(ble_cus_t *p_cus, uint16_t new_value);
 uint32_t ble_cus_humidity_update(ble_cus_t *p_cus, uint16_t new_value);
 uint32_t ble_cus_salinity_update(ble_cus_t *p_cus, uint16_t new_value);
 uint32_t ble_cus_soil_update(ble_cus_t *p_cus, uint16_t new_value);
-uint32_t ble_cus_light_update(ble_cus_t *p_cus, uint16_t new_value);
+uint32_t ble_cus_light_update(ble_cus_t *p_cus, uint32_t new_value);
 #endif // BLE_CUS_H__

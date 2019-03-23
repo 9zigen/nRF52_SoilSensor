@@ -6,6 +6,7 @@
 #include <nrfx_saadc.h>
 #include <sensors/include/shtc3.h>
 #include <sensors/include/isl29035.h>
+#include <sensors/include/light_sensor.h>
 
 #include "nordic_common.h"
 #include "nrf.h"
@@ -97,7 +98,7 @@ typedef union {
   uint8_t  u8[2];
 } u16_to_u8_t;
 
-static uint8_t manuf_data_array[9];
+static uint8_t manuf_data_array[11];
 
 static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;                        /**< Handle of the current connection. */
 
@@ -629,10 +630,10 @@ void advertising_init(void)
   u16_to_u8_t soil;
   soil.u16                            = get_soil_level();
 
-  u16_to_u8_t light;
-  light.u16                           = (uint16_t) isl29035_get_visible_lux();
+  u32_to_u8_t light;
+  light.u32                           = get_visible_lux();
 
-  uint8_t data[9];
+  uint8_t data[11];
 
   /* bat */
   data[0]                             = get_battery_capacity();
@@ -654,6 +655,8 @@ void advertising_init(void)
   /* light */
   data[7]                             = light.u8[0];
   data[8]                             = light.u8[1];
+  data[9]                             = light.u8[2];
+  data[10]                            = light.u8[3];
 
   manuf_data.company_identifier       = 0xffff; //You company ID
   manuf_data.data.p_data              = data;
@@ -664,11 +667,11 @@ void advertising_init(void)
   init.advdata.include_appearance     = true;
   init.advdata.flags                  = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
 
-//  init.advdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-//  init.advdata.uuids_complete.p_uuids  = m_adv_uuids;
+  init.advdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+  init.advdata.uuids_complete.p_uuids  = m_adv_uuids;
 
-  init.srdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
-  init.srdata.uuids_complete.p_uuids  = m_adv_uuids;
+//  init.srdata.uuids_complete.uuid_cnt = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+//  init.srdata.uuids_complete.p_uuids  = m_adv_uuids;
 
   init.config.ble_adv_fast_enabled    = true;
   init.config.ble_adv_fast_interval   = APP_ADV_INTERVAL;
@@ -684,46 +687,57 @@ void advertising_init(void)
 
   ble_advertising_conn_cfg_tag_set(&m_advertising, APP_BLE_CONN_CFG_TAG);
   APP_ERROR_CHECK(err_code);
+
+//  for (int i = 0; i < m_advertising.adv_data.adv_data.len; ++i) {
+//    NRF_LOG_INFO("%dx%x", i, m_advertising.adv_data.adv_data.p_data[i]);
+//  }
+//  for (int i = 0; i < m_advertising.adv_data.scan_rsp_data.len; ++i) {
+//    NRF_LOG_INFO("%dx%x", i, m_advertising.adv_data.scan_rsp_data.p_data[i]);
+//  }
 }
 
 /* Function for update manufacturer data */
 void adv_manuf_data_update()
 {
   uint8_t temperature;
-  temperature                         = (uint8_t) (shtc_get_temperature() / 100);
+  temperature             = (uint8_t) (shtc_get_temperature() / 100);
 
   uint8_t humidity;
-  humidity                            = (uint8_t) (shtc_get_humidity() / 100);
+  humidity                = (uint8_t) (shtc_get_humidity() / 100);
 
   u16_to_u8_t salinity;
-  salinity.u16                        = get_raw_salinity();
+  salinity.u16            = get_raw_salinity();
 
   u16_to_u8_t soil;
-  soil.u16                            = get_soil_level();
+  soil.u16                = get_soil_level();
 
-  u16_to_u8_t light;
-  light.u16                           = (uint16_t) isl29035_get_visible_lux();
+  u32_to_u8_t light;
+  light.u32               = get_visible_lux();
 
   /* bat */
-  manuf_data_array[0] = get_battery_capacity();
+  manuf_data_array[0]     = get_battery_capacity();
 
   /* temp */
-  manuf_data_array[1] = temperature;
+  manuf_data_array[1]     = temperature;
 
   /* hum */
-  manuf_data_array[2] = humidity;
+  manuf_data_array[2]     = humidity;
 
   /* ec */
-  manuf_data_array[3] = salinity.u8[0];
-  manuf_data_array[4] = salinity.u8[1];
+  manuf_data_array[3]     = salinity.u8[0];
+  manuf_data_array[4]     = salinity.u8[1];
 
   /* soil */
-  manuf_data_array[5] = soil.u8[0];
-  manuf_data_array[6] = soil.u8[1];
+  manuf_data_array[5]     = soil.u8[0];
+  manuf_data_array[6]     = soil.u8[1];
 
   /* light */
-  manuf_data_array[7] = light.u8[0];
-  manuf_data_array[8] = light.u8[1];
+  manuf_data_array[7]     = light.u8[0];
+  manuf_data_array[8]     = light.u8[1];
+  manuf_data_array[9]     = light.u8[2];
+  manuf_data_array[10]    = light.u8[3];
+
+//  NRF_LOG_INFO("ADV Light Lux: 0x%x",*(uint32_t*)&manuf_data_array[7]);
 
 }
 
@@ -755,7 +769,7 @@ void advertising_update()
 //  }
 
   // Update manufacturer specific data
-  const uint8_t manuf_data_offset = 22;
+  const uint8_t manuf_data_offset = 4;
   adv_manuf_data_update();
   memcpy(&new_data.scan_rsp_data.p_data[manuf_data_offset],
          &manuf_data_array,
@@ -779,12 +793,12 @@ void update_sensors_service(sensor_t sensor_id)
 {
   ret_code_t err_code;
 
-  uint8_t battery_level = get_battery_capacity();
-  uint16_t temperature  = (uint16_t) shtc_get_temperature();
-  uint16_t humidity     = shtc_get_humidity();
-  uint16_t soil         = get_soil_level();
-  uint16_t salinity     = get_raw_salinity();
-  uint16_t light        = (uint16_t) isl29035_get_visible_lux();
+  uint8_t battery_level = get_battery_capacity();             /* in percentage */
+  uint16_t temperature  = (uint16_t) shtc_get_temperature();  /* in celsius x100 */
+  uint16_t humidity     = shtc_get_humidity();                /* in percentage x100 */
+  uint16_t soil         = get_soil_level();                   /* in mv, Wet<2300>Dry */
+  uint16_t salinity     = get_raw_salinity();                 /* in uS, micro siemens */
+  uint32_t light        = get_visible_lux();                  /* in Lux 550nm max sensitivity */
 
   switch (sensor_id)
   {
